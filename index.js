@@ -77,7 +77,8 @@ app.get('/download.csdl', async (req, res) => {
             }
             response.body.pipe(res);
         }
-    } catch {
+    } catch (e) {
+        console.log(e)
         return res.render('error', { error: "Invalid request." })
     }
 });
