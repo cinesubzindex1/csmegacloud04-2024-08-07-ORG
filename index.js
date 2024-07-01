@@ -1,8 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require('cors');
-const secure = require('ssl-express-www')
+const secure = require('ssl-express-www');
 const path = require('path');
+const axios = require('axios')
 const config = require('./utils/config');
 const { decryptData } = require("./utils/crypto");
 const { download, getFileInfo, generateLink } = require("./lib/drive");
@@ -24,7 +25,7 @@ app.get('/', (req, res) => {
     res.render('error', { error: 'Permission denied' })
 });
 
-app.get('/direct.csdl', async (req, res) => {
+app.get('/direct.csdl/:name', async (req, res) => {
     try {
         if (!config.ALLOW_DIRECT_ID_DOWNLOADS) return res.redirect('/');
 
@@ -48,7 +49,7 @@ app.get('/direct.csdl', async (req, res) => {
     }
 });
 
-app.get('/download.csdl', async (req, res) => {
+app.get('/download.csdl/:name', async (req, res) => {
 
     if (!config.ALLOW_DOWNLOADING_FILES) return res.redirect('/');
 
@@ -67,6 +68,13 @@ app.get('/download.csdl', async (req, res) => {
             return res.render('error', { error: "Integrity check failed." })
         }
         if (server == 'gdrive') return res.redirect(`https://drive.usercontent.google.com/download?id=${file}&export=download`)
+        if (server == 'cs_old') {
+            try{
+                var {data} = await axios.get('https://kos.csheroku01.workers.dev/generate.aspx?id=' + file)
+                console.log(data.link)
+                return res.redirect(data.link)
+            } catch {}
+        }
 
         const response = await download(file, range, inline === 'true');
         if (response.error) {
@@ -77,7 +85,8 @@ app.get('/download.csdl', async (req, res) => {
             }
             response.body.pipe(res);
         }
-    } catch {
+    } catch(e) {
+        console.log(e)
         return res.render('error', { error: "Invalid request." })
     }
 });
@@ -120,10 +129,12 @@ app.get('/generate.csdl', async (req, res) => {
 
         var { id, encryptedId } = req.query;
         if (encryptedId) id = decryptData(encryptedId)
-        const link = await generateLink(id);
+        const response = await getFileInfo(id);
+        const link = await generateLink(id,response.name);
         const json = {
             link: "https://" + req.get('host') + link,
-            gdrive: "https://" + req.get('host') + link + '&server=gdrive'
+            gdrive: "https://" + req.get('host') + link + '&server=gdrive',
+            sever:"https://" + req.get('host') + link + '&server=cs_old'
         }
         res.json(json)
     } catch {
@@ -142,8 +153,8 @@ app.get('/cs.download.csdl', async (req, res) => {
             res.render('error', response)
         } else {
             response.size = convertBytes(response.size)
-            const link = await generateLink(id);
-            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', info: config.dlInfo })
+            const link = await generateLink(id,response.name);
+            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive',sUrl: link + '&server=cs_old', info: config.dlInfo })
         }
     } catch {
         return res.render('error', { error: "Invalid request." })
