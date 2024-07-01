@@ -29,5 +29,10 @@ module.exports = {
     GOOGLE_REFRESH_TOKEN: process.env.REFRESH_TOKEN,
     file_link_expiry: 7, // 7 days
     dlInfo,
-    enable_cors_file_down : false
+    enable_cors_file_down : false,
+    apiConfig: {
+        rootFolder: "8d155ce27396746c9386e75b68c38959a76d442c8b7f19df8bc8fb4f2ad3300fbb8f1ba3ffc68b432f3026f44e7e68ab",
+        isTeamDrive: true,
+        sharedDrive: "940de78b267f4b2cde498541236a4cb2aa204041235b89557ede246f06eab119"
+      },
 }
