@@ -71,7 +71,6 @@ app.get('/download.csdl/:name', async (req, res) => {
         if (server == 'cs_old') {
             try{
                 var {data} = await axios.get('https://kos.csheroku01.workers.dev/generate.aspx?id=' + file)
-                console.log(data.link)
                 return res.redirect(data.link)
             } catch {}
         }
