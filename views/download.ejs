@@ -39,7 +39,7 @@
 .download-btn {
     display: inline-block;
     padding: 15px 30px;
-    margin-top: 20px;
+    margin-top: 16px;
     font-size: 16px;
     color: #ffffff;
     background-color: #6200ee;
@@ -122,7 +122,9 @@
         </div>
         <div class="additional-info">
             <h2>Additional Information</h2>
-            <p><%= info.main %></p>
+            <p><%= info.main[0] %></p>
+            <p><%= info.main[1] %></p>
+            <p><%= info.main[2] %></p>
             <p>If Any Issue Please Contact Admin <a href="<%= info.help %>">Admin</a>
         </div>
     </div>
