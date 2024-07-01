@@ -8,7 +8,9 @@ function generateKey(key) {
 
 //cs.download.csdl info
 const dlInfo = {
-    main: 'ඩවුන්ලෝඩ් ගැටළු ඇත්නම් පහත ලින්ක් එක ඔස්සේ අපව සම්බන්ධ කරගන්න.',
+    main: 'ඩිරෙක්ට් ඩවුන්ලෝඩ් කියමට ඉහත Server 1 හෝ Server 2 හෝ Google Server එක ක්ලික් කර ලබා ගන්න.\n 
+කිසියම් Server එකක ගැටළු ඇත්නම් වෙනත් Server එකක් උත්සහ කරන්න.\n
+Server  3 ම වැඩ නැත්නම් අපට දැනුම් දෙන්න. \n ඩවුන්ලෝඩ් ගැටළු ඇත්නම් පහත ලින්ක් එක ඔස්සේ අපව සම්බන්ධ කරගන්න.',
     help: 'https://t.me/CineSubzAdmin',
     support: 'https://cinesubz.co'
 }
