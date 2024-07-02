@@ -4,12 +4,14 @@ const cors = require('cors');
 const secure = require('ssl-express-www');
 const path = require('path');
 const axios = require('axios')
+const favicon = require("serve-favicon");
 const config = require('./utils/config');
 const { decryptData, encryptData } = require("./utils/crypto");
 const { download, getFileInfo, generateLink } = require("./lib/drive");
 const { decryptString, genIntegrity, checkIntegrity, generateAndReturnIV, generateAndReturnKey, generateHMACKey } = require("./utils/webCrypto");
 const { getAccessToken, convertBytes } = require("./utils");
 const { CheckPaths } = require("./lib/checkIndex");
+
 const app = express();
 app.enable('trust proxy');
 
@@ -17,6 +19,8 @@ app.use(express.json());
 app.use(cors());
 app.use(secure)
 app.use(express.static('assets'));
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
