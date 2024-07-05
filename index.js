@@ -111,7 +111,7 @@ app.get('/download.csdl/:name', async (req, res) => {
         if (server == 'gdrive') return res.redirect(`https://drive.usercontent.google.com/download?id=${file}&export=download`)
         if (server == 'cs_old') {
             try {
-                var { data } = await axios.get('https://kos.csheroku01.workers.dev/generate.aspx?id=' + file)
+                var { data } = await axios.get('https://c41.csheroku01.workers.dev/generate.aspx?id=' + file)
                 return res.redirect(data.link)
             } catch { }
         }
