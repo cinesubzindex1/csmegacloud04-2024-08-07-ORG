@@ -11,6 +11,7 @@ const { download, getFileInfo, generateLink } = require("./lib/drive");
 const { decryptString, genIntegrity, checkIntegrity, generateAndReturnIV, generateAndReturnKey, generateHMACKey } = require("./utils/webCrypto");
 const { getAccessToken, convertBytes } = require("./utils");
 const { CheckPaths } = require("./lib/checkIndex");
+const { driveDirectDlIncognito } = require("./lib/driveDirectDl");
 
 const app = express();
 app.enable('trust proxy');
@@ -30,7 +31,7 @@ function mainPath(path) {
 }
 
 app.use(async (req, res, next) => {
-    if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config'].includes(mainPath(req.path))) return next();
+    if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/cscloud2bot'].includes(mainPath(req.path))) return next();
     try {
         var data = await CheckPaths(req.path.replace('/', '').split('/'))
         var file = data.data.pop()
@@ -47,6 +48,13 @@ app.use(async (req, res, next) => {
     } catch {
         return res.render('error', { error: "Invalid request." })
     }
+});
+
+app.get('/cscloud2bot',(req, res) => {
+        var { start } = req.query;
+        if(!start) return res.redirect('/')
+        const tg = 'https://t.me/cscloud2bot?start=' + start
+        res.render('tg', { tg, info: config.dlInfo, timer : config.timer })
 });
 
 app.get('/', (req, res) => {
@@ -108,12 +116,21 @@ app.get('/download.csdl/:name', async (req, res) => {
         if (!integrity_result) {
             return res.render('error', { error: "Integrity check failed." })
         }
-        if (server == 'gdrive') return res.redirect(`https://drive.usercontent.google.com/download?id=${file}&export=download`)
+        if (server == 'gdrive'){
+            const dlLink = await driveDirectDlIncognito(file)
+            return res.redirect(dlLink || `https://drive.usercontent.google.com/download?id=${file}&export=download`)
+        }
         if (server == 'cs_old') {
-            try {
-                var { data } = await axios.get('https://c41.csheroku01.workers.dev/generate.aspx?id=' + file)
-                return res.redirect(data.link)
-            } catch { }
+            async function useServer(fail) {
+                try {
+                    const server = config.downloadServers[Math.floor(Math.random() * config.downloadServers.length)]
+                    var { data } = await axios.get(`https://${server}/generate.aspx?id=` + file)
+                    return res.redirect(data.link)
+                } catch { 
+                    if(!fail) return await useServer(true)
+                }
+            }
+            return await useServer()
         }
 
         const response = await download(file, range, inline === 'true');

@@ -14,10 +14,19 @@ const dlInfo = {
     help: 'https://t.me/CineSubzAdmin',
     support: 'https://cinesubz.co'
 }
+
 const timer = {
     active : true,
     time : 15 // seconds
 }
+
+const downloadServers = [
+    "c41.csheroku01.workers.dev",
+    "c41.csheroku01.workers.dev",
+    "c41.csheroku01.workers.dev",
+    "c41.csheroku01.workers.dev",
+    "c41.csheroku01.workers.dev",
+]
 module.exports = {
     version: "v1.0",
     PORT: process.env.PORT || 8000,
@@ -35,6 +44,7 @@ module.exports = {
     file_link_expiry: 7, // 7 days
     dlInfo,
     timer,
+    downloadServers,
     enable_cors_file_down : false,
     apiConfig: {
         rootFolder: "8d155ce27396746c9386e75b68c38959a76d442c8b7f19df8bc8fb4f2ad3300fbb8f1ba3ffc68b432f3026f44e7e68ab",
