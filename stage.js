@@ -1,1 +1,1 @@
-module.exports = 'production' // dev || production
+module.exports = 'production'  //  dev || production
