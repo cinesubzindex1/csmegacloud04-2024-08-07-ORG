@@ -27,6 +27,7 @@ const downloadServers = [
     "c41.csheroku01.workers.dev",
     "c41.csheroku01.workers.dev",
 ]
+
 module.exports = {
     version: "v1.0",
     PORT: process.env.PORT || 8000,

@@ -12,6 +12,7 @@ const { decryptString, genIntegrity, checkIntegrity, generateAndReturnIV, genera
 const { getAccessToken, convertBytes } = require("./utils");
 const { CheckPaths } = require("./lib/checkIndex");
 const { driveDirectDlIncognito } = require("./lib/driveDirectDl");
+const stage = require("./stage");
 
 const app = express();
 app.enable('trust proxy');
@@ -31,6 +32,7 @@ function mainPath(path) {
 }
 
 app.use(async (req, res, next) => {
+    if(stage == 'dev') return res.render('maintain', {})
     if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/telegram'].includes(mainPath(req.path))) return next();
     try {
         var data = await CheckPaths(req.path.replace('/', '').split('/'))
@@ -50,15 +52,15 @@ app.use(async (req, res, next) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.render('error', { error: 'Permission denied' })
+});
+
 app.get('/telegram',(req, res) => {
         var { code, bot } = req.query;
         if(!code || !bot) return res.redirect('/')
         const tg = `https://t.me/${bot}?start=${code}`
         res.render('tg', { tg, info: config.dlInfo, timer : config.timer })
-});
-
-app.get('/', (req, res) => {
-    res.render('error', { error: 'Permission denied' })
 });
 
 app.get('/admin', (req, res) => {
