@@ -31,7 +31,7 @@ function mainPath(path) {
 }
 
 app.use(async (req, res, next) => {
-    if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/cscloud2bot'].includes(mainPath(req.path))) return next();
+    if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/telegram'].includes(mainPath(req.path))) return next();
     try {
         var data = await CheckPaths(req.path.replace('/', '').split('/'))
         var file = data.data.pop()
@@ -50,10 +50,10 @@ app.use(async (req, res, next) => {
     }
 });
 
-app.get('/cscloud2bot',(req, res) => {
-        var { start } = req.query;
-        if(!start) return res.redirect('/')
-        const tg = 'https://t.me/cscloud2bot?start=' + start
+app.get('/telegram',(req, res) => {
+        var { code, bot } = req.query;
+        if(!code || !bot) return res.redirect('/')
+        const tg = `https://t.me/${bot}?start=${code}`
         res.render('tg', { tg, info: config.dlInfo, timer : config.timer })
 });
 
