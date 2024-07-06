@@ -16,7 +16,7 @@ const dlInfo = {
 }
 const timer = {
     active : true,
-    time : 3 // seconds
+    time : 2 // seconds
 }
 module.exports = {
     version: "v1.0",
