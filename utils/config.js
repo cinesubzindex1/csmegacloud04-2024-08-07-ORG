@@ -15,7 +15,7 @@ const dlInfo = {
     support: 'https://cinesubz.co'
 }
 const timer = {
-    active : true,
+    active : false,
     time : 15 // seconds
 }
 module.exports = {
