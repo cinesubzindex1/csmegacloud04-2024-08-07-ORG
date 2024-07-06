@@ -16,15 +16,15 @@ const dlInfo = {
 }
 
 const timer = {
-    active : true,
+    active : false,
     time : 2 // seconds
 }
 
 const downloadServers = [
     "c41.csheroku01.workers.dev",
+    "c43.csheroku01.workers.dev",
     "c41.csheroku01.workers.dev",
-    "c41.csheroku01.workers.dev",
-    "c41.csheroku01.workers.dev",
+    "c42.csheroku01.workers.dev",
     "c41.csheroku01.workers.dev",
 ]
 
