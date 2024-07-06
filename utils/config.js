@@ -16,7 +16,7 @@ const dlInfo = {
 }
 
 const timer = {
-    active : true,
+    active : false,
     time : 2 // seconds
 }
 
