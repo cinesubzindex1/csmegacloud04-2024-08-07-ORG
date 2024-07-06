@@ -40,6 +40,7 @@
     display: inline-block;
     padding: 15px 30px;
     margin-top: 16px;
+    margin-left: 16px;
     font-size: 16px;
     color: #ffffff;
     background-color: #800020;
@@ -51,7 +52,7 @@
 }
 
 .download-btn:hover {
-    background-color: #3700b3;
+    background-color: #8c0000;
 }
 
 .additional-info {
@@ -119,12 +120,7 @@
 
             <p class="file-info">File Name: <span><%= file.name %></span></p>
             <p class="file-info">File Size: <span><%= file.size %></span></p> 
-
-            <a href="<%= sUrl %>" class="download-btn" id="link2">Direct Download</a> 
-            <a href="<%= gUrl %>" class="download-btn" id="link3"  target="_blank">Google Download</a>
-
-
-
+            <div id="dl-links"></div>
         </div>
 
         <div class="additional-info">
@@ -135,5 +131,38 @@
             <p>If Any Issue Please Contact <a href="<%= info.help %>">Admin</a>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let countdown = Number('<%= timer.time %>');
+            let active = '<%= timer.active %>'
+
+            const timerElement = document.createElement("div");
+            timerElement.id = "countdown-timer";
+            timerElement.textContent = `Please wait ${countdown} seconds...`;
+            
+            const downloadSection = document.querySelector(".download-section");
+            const dlBtn = document.querySelector("#dl-links");
+
+            function applyUrl() {
+                dlBtn.innerHTML += '<a href="<%= sUrl %>" class="download-btn" id="link1">Direct Download</a>';
+                dlBtn.innerHTML += '<a href="<%= gUrl %>" class="download-btn" id="link2" target="_blank">Google Download</a>';
+            }
+            
+            if(active == 'true') {
+            downloadSection.appendChild(timerElement);
+            const intervalId = setInterval(function() {
+                countdown--;
+                timerElement.textContent = `Please wait ${countdown} seconds...`;
+                if (countdown <= 0) {
+                    clearInterval(intervalId);
+                    timerElement.textContent = "";
+                    applyUrl();
+                }
+            }, 1000);
+        } else {
+            applyUrl();
+        }
+        });
+    </script>
 </body>
 </html>

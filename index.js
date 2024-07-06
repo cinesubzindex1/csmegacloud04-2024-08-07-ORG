@@ -42,7 +42,7 @@ app.use(async (req, res, next) => {
         } else {
             response.size = convertBytes(response.size)
             const link = await generateLink(id, response.name);
-            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo })
+            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer : config.timer })
         }
     } catch {
         return res.render('error', { error: "Invalid request." })
@@ -194,7 +194,7 @@ app.get('/cs.download.csdl', async (req, res) => {
         } else {
             response.size = convertBytes(response.size)
             const link = await generateLink(id, response.name);
-            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo })
+            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer : config.timer })
         }
     } catch {
         return res.render('error', { error: "Invalid request." })
