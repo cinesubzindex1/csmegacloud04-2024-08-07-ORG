@@ -17,7 +17,7 @@ const dlInfo = {
 
 const timer = {
     active : true,
-    time : 15 // seconds
+    time : 2 // seconds
 }
 
 const downloadServers = [
