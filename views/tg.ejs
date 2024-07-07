@@ -12,7 +12,9 @@
         <div id="box">
             <div class="download-section">
                 <h4>Click Telegram Download Button</h4>
-                <div id="dl-links"></div>
+                <div id="dl-links">
+                    <button class="download-btn" id="tgurl">Telegram Download</button>
+                </div>
             </div>
 
             <div class="additional-info">
@@ -25,38 +27,14 @@
         </div>
     </div>
     <script>
-            let countdown = <%- timer.time %>;
-            let active = <%- timer.active %>;
+            let countdown = '<%= timer.time %>';
+            let active = '<%= timer.active %>'
+
+            const button = document.getElementById('tgurl');
+            button.addEventListener('click', () => {
+                window.open("<%= tg %>", '_blank');
+            });
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const timerElement = document.querySelector("#second");
-            timerElement.textContent = `Please wait ${countdown} seconds...`;
-
-            const downloadSection = document.querySelector(".download-section");
-
-            function applyUrl() {
-                document.querySelector("#box").style.display = "block";
-                document.querySelector("#count").style.display = "none";
-            const dlBtn = document.querySelector("#dl-links");
-
-                dlBtn.innerHTML += '<a href="<%= tg %>" class="download-btn" id="link2" target="_blank">Telegram Download</a>';
-            }
-
-            if(active) {
-            const intervalId = setInterval(function() {
-                countdown--;
-                timerElement.textContent = `Please wait ${countdown} seconds...`;
-                if (countdown <= 0) {
-                    clearInterval(intervalId);
-                    applyUrl();
-                }
-            }, 1000);
-        } else {
-            applyUrl();
-        }
-        });
-    </script>
+    <script src="/js/timer.js"></script>
 </body>
 </html>

@@ -16,7 +16,11 @@
 
                 <p class="file-info">File Name: <span><%= file.name %></span></p>
                 <p class="file-info">File Size: <span><%= file.size %></span></p> 
-                <div id="dl-links"></div>
+                <div id="dl-links">
+                    <button class="download-btn" id="link1">Direct Download</button>
+                    <!-- <button class="download-btn" id="link2">Direct Download</button> -->
+                    <button class="download-btn" id="link3">Google Download</button>
+                </div>
             </div>
 
             <div class="additional-info">
@@ -32,37 +36,18 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let countdown = Number('<%= timer.time %>');
-            let active = '<%= timer.active %>'
-
-            const timerElement = document.querySelector("#second");
-            timerElement.textContent = `Please wait ${countdown} seconds...`;
-
-            const downloadSection = document.querySelector(".download-section");
-
-            function applyUrl() {
-                document.querySelector("#box").style.display = "block";
-                document.querySelector("#count").style.display = "none";
-            const dlBtn = document.querySelector("#dl-links");
-
-                dlBtn.innerHTML += '<a href="<%= sUrl %>" class="download-btn" id="link1">Direct Download</a>';
-                dlBtn.innerHTML += '<a href="<%= gUrl %>" class="download-btn" id="link2" target="_blank">Google Download</a>';
-            }
-
-            if(active == 'true') {
-            const intervalId = setInterval(function() {
-                countdown--;
-                timerElement.textContent = `Please wait ${countdown} seconds...`;
-                if (countdown <= 0) {
-                    clearInterval(intervalId);
-                    applyUrl();
-                }
-            }, 1000);
-        } else {
-            applyUrl();
-        }
-        });
+        let countdown = '<%= timer.time %>';
+        let active = '<%= timer.active %>';
+        let file = '<%= meta.fake.file %>';
+        let expiry = '<%= meta.fake.expiry %>';
+        let mac = '<%= meta.mac %>';
+        let tag = '<%= meta.tag %>';
+        let iv = '<%- meta.iv %>'.replace(/,/g,'');
+        let path = '<%= meta.path %>'
     </script>
+    <script>
+        <%- downloadScript %>
+    </script>
+    <script src="/js/timer.js"></script>
 </body>
 </html>

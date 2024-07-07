@@ -1,6 +1,15 @@
 const crypto = require('crypto');
 const { ENCRYPTION_KEY } = require('./config');
 
+function generateKey(len=16) {
+  const hex = '0123456789abcdef';
+  let result = '';
+  for (let i = 0; i < len; i++) {
+      result += hex[Math.floor(Math.random() * 16)];
+  }
+  return result;
+}
+
 function encryptData(data, encryptKey= ENCRYPTION_KEY) {
   try {
     const ivKey = Buffer.from(encryptKey);
@@ -22,4 +31,4 @@ function decryptData(hash, encryptKey = ENCRYPTION_KEY){
     throw new Error("Failed to decrypt data, either invalid hash or encryption key.");
   }
 }
-module.exports = {encryptData,decryptData}
+module.exports = {encryptData,decryptData,generateKey}
