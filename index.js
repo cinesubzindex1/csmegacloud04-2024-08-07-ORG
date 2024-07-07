@@ -20,12 +20,14 @@ app.enable('trust proxy');
 app.use(express.json());
 app.use(cors());
 app.use(secure)
-app.use(express.static('assets'));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 function mainPath(path) {
     return '/' + (path.split('/')[1] || '')
