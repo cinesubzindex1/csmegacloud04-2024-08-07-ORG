@@ -1,4 +1,4 @@
-//github : ravindu01manoj
+//
 document.addEventListener("DOMContentLoaded", function() {
     let Count = Number(countdown)
     const timerElement = document.querySelector("#second");
