@@ -75,4 +75,4 @@ you can deploy directly a server with connect this repo..
 
 ## ✍️ Authors <a name = "authors"></a>
 
-- [@Ravindu Manoj](https://github.com/ravindu01manoj) - Developer
+- [@Ravindu Manoj](https://github.com/ravindu01manoj1) - Developer
