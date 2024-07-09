@@ -1,0 +1,26 @@
+{
+  "name": "cs-gdrive-api",
+  "version": "1.0.0",
+  "description": "express app for maintain gdrive link download",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Ravindu Manoj",
+    "github": "https://github.com/ravindu01manoj"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@googleapis/drive": "^8.11.0",
+    "axios": "^1.6.7",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "serve-favicon": "^2.5.0",
+    "ssl-express-www": "^3.2.1"
+  }
+}
