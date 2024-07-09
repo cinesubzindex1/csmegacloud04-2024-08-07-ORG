@@ -21,9 +21,9 @@ const timer = {
 }
 
 const downloadServers = [
-    "c11.csheroku01.workers.dev",
-    "c11.csheroku01.workers.dev",
-    "c11.csheroku01.workers.dev",
+    "c41.csheroku01.workers.dev",
+    "c42.csheroku01.workers.dev",
+    "c43.csheroku01.workers.dev",
 ]
 
 module.exports = {
@@ -46,8 +46,8 @@ module.exports = {
     downloadServers,
     enable_cors_file_down : false,
     apiConfig: {
-        rootFolder: "2bb64ff4bcc37803e3d14d2e6e376e68b4f37002d058bc961b4985049522ec1496bcd52ea06cc786361ecc38b0af2ff5",
+        rootFolder: "8d155ce27396746c9386e75b68c38959a76d442c8b7f19df8bc8fb4f2ad3300fbb8f1ba3ffc68b432f3026f44e7e68ab",
         isTeamDrive: true,
-        sharedDrive: "ee987853d30206571dcc5c330227c0a1e977e7be7d6bbd1d7d5c6978d6795a91"
+        sharedDrive: "940de78b267f4b2cde498541236a4cb2aa204041235b89557ede246f06eab119"
       },
 }
