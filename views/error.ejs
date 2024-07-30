@@ -44,6 +44,18 @@
             background-color: #ff7777;
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorMessage = "<%= error %>";
+            if (errorMessage === "File not found.") {
+                setTimeout(function() {
+                    location.reload();
+                }, 500);
+            }
+        });
+    </script>
+
 </head>
 <body>
     <div class="container">
