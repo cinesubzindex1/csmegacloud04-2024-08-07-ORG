@@ -64,7 +64,7 @@ app.use(async (req, res, next) => {
         const btn = config.dlBtn
         if(gd.link) {
            if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="download-btn" id="link1">Direct Download</a>`
-           if(btn.server2.active) links[btn.server2.z]=`<a href="${gd.link}" class="download-btn" id="link1">Direct Download 2</a>`
+           if(btn.server2.active) links[btn.server2.z]=`<a href="${btn.server2.domain + gd.link}" class="download-btn" id="link1">Direct Download 2</a>`
            if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="download-btn" id="link3" target="_blank">Google Download</a>`
         }
         if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="download-btn" id="link4" target="_blank">Mega Download</a>`

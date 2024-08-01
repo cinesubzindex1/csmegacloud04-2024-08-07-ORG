@@ -33,6 +33,7 @@ const dlBtn = {
     },
     server2 : {
         active : false,
+        domain : '',
         z:1
     },
     gdrive : {
