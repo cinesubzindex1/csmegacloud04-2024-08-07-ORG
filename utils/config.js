@@ -26,6 +26,25 @@ const downloadServers = [
     "c41.csheroku01.workers.dev",
 ]
 
+const dlBtn = {
+    server1 : {
+        active : true,
+        z:0
+    },
+    server2 : {
+        active : false,
+        z:1
+    },
+    gdrive : {
+        active : true,
+        z:2
+    },
+    mega : {
+        active : true,
+        z:3
+    },
+}
+
 module.exports = {
     version: "v1.0",
     PORT: process.env.PORT || 8000,
@@ -42,6 +61,7 @@ module.exports = {
     GOOGLE_REFRESH_TOKEN: process.env.REFRESH_TOKEN,
     file_link_expiry: 7, // 7 days
     dlInfo,
+    dlBtn,
     timer,
     downloadServers,
     enable_cors_file_down : false,

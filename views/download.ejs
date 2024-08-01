@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= file.name %></title>
+    <title><%= file.name || mega.name %></title>
     <style>
         body {
     margin: 0;
@@ -120,8 +120,8 @@
 
                 <h4>ඩිරෙක්ට් ඩවුන්ලෝඩ් කිරීමට ඉහත Direct Download හෝ Google Server එක ක්ලික් කර ලබා ගන්න.</h4>
 
-                <p class="file-info">File Name: <span><%= file.name %></span></p>
-                <p class="file-info">File Size: <span><%= file.size %></span></p> 
+                <p class="file-info">File Name: <span><%= file.name || mega.name %></span></p>
+                <p class="file-info">File Size: <span><%= file.size || mega.size %></span></p> 
                 <div id="dl-links"></div>
             </div>
 
@@ -151,10 +151,10 @@
                 document.querySelector("#box").style.display = "block";
                 document.querySelector("#count").style.display = "none";
             const dlBtn = document.querySelector("#dl-links");
-
-                dlBtn.innerHTML += '<a href="<%= sUrl %>" class="download-btn" id="link1">Direct Download</a>';
-        
-                dlBtn.innerHTML += '<a href="<%= gUrl %>" class="download-btn" id="link2" target="_blank">Google Download</a>';
+                dlBtn.innerHTML += '<%- links[0] %>';
+                dlBtn.innerHTML += '<%- links[1] %>';
+                dlBtn.innerHTML += '<%- links[2] %>';
+                dlBtn.innerHTML += '<%- links[3] %>';
             }
 
             if(active == 'true') {

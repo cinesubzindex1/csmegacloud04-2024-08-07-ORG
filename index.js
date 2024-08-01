@@ -13,6 +13,7 @@ const { getAccessToken, convertBytes } = require("./utils");
 const { CheckPaths } = require("./lib/checkIndex");
 const { driveDirectDlIncognito } = require("./lib/driveDirectDl");
 const stage = require("./stage");
+const { checkMegaPath } = require("./lib/checkmega");
 
 const app = express();
 app.enable('trust proxy');
@@ -34,19 +35,41 @@ function mainPath(path) {
 app.use(async (req, res, next) => {
     if(stage == 'dev') return res.render('maintain', {})
     if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/telegram'].includes(mainPath(req.path))) return next();
+    var paths = req.path.replace('/', '').split('/')
+    var mega={};
+    var gd={};
     try {
-        var data = await CheckPaths(req.path.replace('/', '').split('/'))
+        mega = await checkMegaPath(paths,req.query.auth) || {}
+        if(mega.size) mega.size = convertBytes(mega.size)
+    }catch {}
+    try {
+        var data = await CheckPaths(paths)
         var file = data.data.pop()
-        var id = decryptData(file.id)
-        const response = await getFileInfo(id);
-        if (response?.mimeType?.includes('folder')) return res.redirect('/');
-        if (response.error) {
-            res.render('error', response)
-        } else {
-            response.size = convertBytes(response.size)
-            const link = await generateLink(id, response.name);
-            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer : config.timer })
+        var id = file.id
+        gd = await getFileInfo(id) || {};
+        if (gd?.mimeType?.includes('folder')) return res.redirect('/');
+        if (!gd.error) {
+            gd.size = convertBytes(gd.size)
+            gd.link = await generateLink(id, gd.name);
         }
+    } catch{}
+
+    try {
+        if(!mega.url && !gd.link) {
+            if(gd.error) return res.render('error', gd)
+            return res.redirect('/');
+        }
+
+        const links = ['','','','']
+        const btn = config.dlBtn
+        if(gd.link) {
+           if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="download-btn" id="link1">Direct Download</a>`
+           if(btn.server2.active) links[btn.server2.z]=`<a href="${gd.link}" class="download-btn" id="link1">Direct Download 2</a>`
+           if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="download-btn" id="link3" target="_blank">Google Download</a>`
+        }
+        if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="download-btn" id="link4" target="_blank">Mega Download</a>`
+        res.render('download', { file: gd,mega,links, info: config.dlInfo, timer : config.timer })
+
     } catch {
         return res.render('error', { error: "Invalid request." })
     }
