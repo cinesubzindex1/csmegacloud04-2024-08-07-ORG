@@ -70,4 +70,5 @@ module.exports = {
         isTeamDrive: true,
         sharedDrive: "40ad98f3935792eb4386adfd7c6435cdc22a513093ce54cbafcb490876f00a5c"
       },
+    mega_rootFolder : 'S04'
 }
