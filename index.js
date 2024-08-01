@@ -59,8 +59,8 @@ app.use(async (req, res, next) => {
             if(gd.error) return res.render('error', gd)
             return res.redirect('/');
         }
-
-        const links = ['','','','']
+        var { code, bot } = req.query;
+        const links = ['','','','','']
         const btn = config.dlBtn
         if(gd.link) {
            if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="download-btn" id="link1">Direct Download</a>`
@@ -68,6 +68,7 @@ app.use(async (req, res, next) => {
            if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="download-btn" id="link3" target="_blank">Google Download</a>`
         }
         if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="download-btn" id="link4" target="_blank">Mega Download</a>`
+        if(code && bot && btn.tg.active) links[btn.tg.z]=`<a href="https://t.me/${bot}?start=${code}" class="download-btn" id="link5" target="_blank">Telegram Download</a>`
         res.render('download', { file: gd,mega,links, info: config.dlInfo, timer : config.timer })
 
     } catch {

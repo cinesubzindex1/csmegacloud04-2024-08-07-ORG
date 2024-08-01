@@ -43,6 +43,10 @@ const dlBtn = {
         active : true,
         z:3
     },
+    tg : {
+        active : true,
+        z:4
+    },
 }
 
 module.exports = {
