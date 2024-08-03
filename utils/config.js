@@ -8,16 +8,16 @@ function generateKey(key) {
 
 //cs.download.csdl info
 const dlInfo = {
-    main: [`Google Downlaod ක්ලික් කල විට නැවත Download Anyway ලෙස පැමිණෙන අතර එක ක්ලික් කිවීමෙන් අනතුරුව ඩවුන්ලෝඩ් වේ`,
-        `කිසියම් Server එකක ගැටළු ඇත්නම් වෙනත් Server එකක් උත්සහ කරන්න.`,
-        `Server 2  ම ඩවුන්ලෝඩ් ගැටළු ඇත්නම් පහත ලින්ක් එක ඔස්සේ අපව සම්බන්ධ කරගන්න.`],
+    main:[ `Google Downlaod ක්ලික් කල විට නැවත Download Anyway ලෙස පැමිණෙන අතර එක ක්ලික් කිවීමෙන් අනතුරුව ඩවුන්ලෝඩ් වේ`,        
+`කිසියම් Server එකක ගැටළු ඇත්නම් වෙනත් Server එකක් උත්සහ කරන්න.`,
+`Server 2  ම ඩවුන්ලෝඩ් ගැටළු ඇත්නම් පහත ලින්ක් එක ඔස්සේ අපව සම්බන්ධ කරගන්න.`],
     help: 'https://t.me/CineSubzAdmin',
     support: 'https://cinesubz.co'
 }
 
 const timer = {
-    active: false,
-    time: 2 // seconds
+    active : false,
+    time : 2 // seconds
 }
 
 const downloadServers = [
@@ -27,26 +27,26 @@ const downloadServers = [
 ]
 
 const dlBtn = {
-    server1: {
-        active: true,
-        z: 0
+    server1 : {
+        active : true,
+        z:0
     },
-    server2: {
-        active: false,
-        domain: '',
-        z: 1
+    server2 : {
+        active : false,
+        domain : '',
+        z:1
     },
-    gdrive: {
-        active: true,
-        z: 2
+    gdrive : {
+        active : true,
+        z:2
     },
-    mega: {
-        active: true,
-        z: 3
+    mega : {
+        active : true,
+        z:3
     },
-    tg: {
-        active: true,
-        z: 4
+    tg : {
+        active : true,
+        z:4
     },
 }
 
@@ -69,11 +69,11 @@ module.exports = {
     dlBtn,
     timer,
     downloadServers,
-    enable_cors_file_down: false,
+    enable_cors_file_down : false,
     apiConfig: {
         rootFolder: "8d155ce27396746c9386e75b68c38959a76d442c8b7f19df8bc8fb4f2ad3300fbb8f1ba3ffc68b432f3026f44e7e68ab",
         isTeamDrive: true,
         sharedDrive: "40ad98f3935792eb4386adfd7c6435cdc22a513093ce54cbafcb490876f00a5c"
-    },
-    mega_rootFolder: 'S04'
+      },
+    mega_rootFolder : 'S04'
 }
