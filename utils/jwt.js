@@ -61,4 +61,4 @@ const JSONWebToken = {
     }
 };
 
-module.exports = {JSONWebToken}
+module.exports = { JSONWebToken }

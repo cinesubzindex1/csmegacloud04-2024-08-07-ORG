@@ -4,10 +4,10 @@ const config = require('./config');
 const serviceAccounts = require('./serviceAccounts');
 var tempAuth = {}
 
-function getServiceAccount(){
-    if(config.USE_SERVICE_ACCOUNT && serviceAccounts.length > 0) {
+function getServiceAccount() {
+    if (config.USE_SERVICE_ACCOUNT && serviceAccounts.length > 0) {
         var acc = serviceAccounts[Math.floor(Math.random() * serviceAccounts.length)]
-        if(acc?.client_email && acc?.private_key) return acc
+        if (acc?.client_email && acc?.private_key) return acc
     }
     return false
 }
@@ -91,17 +91,17 @@ function enQuery(data) {
 function convertBytes(bytes) {
     const ONE_GB_IN_BYTES = 1024 * 1024 * 1024;
     const ONE_MB_IN_BYTES = 1024 * 1024;
-  
+
     let result;
     if (bytes >= ONE_GB_IN_BYTES) {
-      result = bytes / ONE_GB_IN_BYTES;
-      return `${result.toFixed(2)} GB`;
+        result = bytes / ONE_GB_IN_BYTES;
+        return `${result.toFixed(2)} GB`;
     } else {
-      result = bytes / ONE_MB_IN_BYTES;
-      return `${result.toFixed(2)} MB`;
+        result = bytes / ONE_MB_IN_BYTES;
+        return `${result.toFixed(2)} MB`;
     }
-  }
+}
 
-module.exports = { 
+module.exports = {
     getAccessToken, sleep, convertBytes
 }

@@ -33,15 +33,15 @@ function mainPath(path) {
 }
 
 app.use(async (req, res, next) => {
-    if(stage == 'dev') return res.render('maintain', {})
+    if (stage == 'dev') return res.render('maintain', {})
     if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/telegram'].includes(mainPath(req.path))) return next();
     var paths = req.path.replace('/', '').split('/')
-    var mega={};
-    var gd={};
+    var mega = {};
+    var gd = {};
     try {
-        mega = await checkMegaPath(paths,req.query.auth) || {}
-        if(mega.size) mega.size = convertBytes(mega.size)
-    }catch {}
+        mega = await checkMegaPath(paths, req.query.auth) || {}
+        if (mega.size) mega.size = convertBytes(mega.size)
+    } catch { }
     try {
         var data = await CheckPaths(paths)
         var file = data.data.pop()
@@ -52,24 +52,24 @@ app.use(async (req, res, next) => {
             gd.size = convertBytes(gd.size)
             gd.link = await generateLink(id, gd.name);
         }
-    } catch{}
+    } catch { }
 
     try {
-        if(!mega.url && !gd.link) {
-            if(gd.error) return res.render('error', gd)
+        if (!mega.url && !gd.link) {
+            if (gd.error) return res.render('error', gd)
             return res.redirect('/');
         }
         var { code, bot } = req.query;
-        const links = ['','','','','']
+        const links = ['', '', '', '', '']
         const btn = config.dlBtn
-        if(gd.link) {
-           if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="download-btn" id="link1">Direct Download</a>`
-           if(btn.server2.active) links[btn.server2.z]=`<a href="${btn.server2.domain + gd.link}" class="download-btn" id="link1">Direct Download 2</a>`
-           if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="download-btn" id="link3" target="_blank">Google Download</a>`
+        if (gd.link) {
+            if (btn.server1.active) links[btn.server1.z] = `<a href="${gd.link + '&server=cs_old'}" class="download-btn" id="link1">Direct Download</a>`
+            if (btn.server2.active) links[btn.server2.z] = `<a href="${btn.server2.domain + gd.link}" class="download-btn" id="link1">Direct Download 2</a>`
+            if (btn.gdrive.active) links[btn.gdrive.z] = `<a href="${gd.link + '&server=gdrive'}" class="download-btn" id="link3" target="_blank">Google Download</a>`
         }
-        if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="download-btn" id="link4" target="_blank">Mega Download</a>`
-        if(code && bot && btn.tg.active) links[btn.tg.z]=`<a href="https://t.me/${bot}?start=${code}" class="download-btn" id="link5" target="_blank">Telegram Download</a>`
-        res.render('download', { file: gd,mega,links, info: config.dlInfo, timer : config.timer })
+        if (mega.url && btn.mega.active) links[btn.mega.z] = `<a href="${mega.url}" class="download-btn" id="link4" target="_blank">Mega Download</a>`
+        if (code && bot && btn.tg.active) links[btn.tg.z] = `<a href="https://t.me/${bot}?start=${code}" class="download-btn" id="link5" target="_blank">Telegram Download</a>`
+        res.render('download', { file: gd, mega, links, info: config.dlInfo, timer: config.timer })
 
     } catch {
         return res.render('error', { error: "Invalid request." })
@@ -80,11 +80,11 @@ app.get('/', (req, res) => {
     res.render('error', { error: 'Permission denied' })
 });
 
-app.get('/telegram',(req, res) => {
-        var { code, bot } = req.query;
-        if(!code || !bot) return res.redirect('/')
-        const tg = `https://t.me/${bot}?start=${code}`
-        res.render('tg', { tg, info: config.dlInfo, timer : config.timer })
+app.get('/telegram', (req, res) => {
+    var { code, bot } = req.query;
+    if (!code || !bot) return res.redirect('/')
+    const tg = `https://t.me/${bot}?start=${code}`
+    res.render('tg', { tg, info: config.dlInfo, timer: config.timer })
 });
 
 app.get('/admin', (req, res) => {
@@ -142,7 +142,7 @@ app.get('/download.csdl/:name', async (req, res) => {
         if (!integrity_result) {
             return res.render('error', { error: "Integrity check failed." })
         }
-        if (server == 'gdrive'){
+        if (server == 'gdrive') {
             const dlLink = await driveDirectDlIncognito(file)
             return res.redirect(dlLink || `https://drive.usercontent.google.com/download?id=${file}&export=download`)
         }
@@ -152,8 +152,8 @@ app.get('/download.csdl/:name', async (req, res) => {
                     const server = config.downloadServers[Math.floor(Math.random() * config.downloadServers.length)]
                     var { data } = await axios.get(`https://${server}/generate.aspx?id=` + file)
                     return res.redirect(data.link)
-                } catch { 
-                    if(!fail) return await useServer(true)
+                } catch {
+                    if (!fail) return await useServer(true)
                 }
             }
             return await useServer()
@@ -237,7 +237,7 @@ app.get('/cs.download.csdl', async (req, res) => {
         } else {
             response.size = convertBytes(response.size)
             const link = await generateLink(id, response.name);
-            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer : config.timer })
+            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer: config.timer })
         }
     } catch {
         return res.render('error', { error: "Invalid request." })
