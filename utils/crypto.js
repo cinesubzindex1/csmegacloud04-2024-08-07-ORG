@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const { ENCRYPTION_KEY } = require('./config');
 
-function encryptData(data, encryptKey = ENCRYPTION_KEY) {
+function encryptData(data, encryptKey= ENCRYPTION_KEY) {
   try {
     const ivKey = Buffer.from(encryptKey);
     const cipher = crypto.createCipheriv("aes-128-cbc", encryptKey, ivKey);
@@ -12,7 +12,7 @@ function encryptData(data, encryptKey = ENCRYPTION_KEY) {
   }
 }
 
-function decryptData(hash, encryptKey = ENCRYPTION_KEY) {
+function decryptData(hash, encryptKey = ENCRYPTION_KEY){
   try {
     const ivKey = Buffer.from(encryptKey);
     const decipher = crypto.createDecipheriv("aes-128-cbc", encryptKey, ivKey);
@@ -22,4 +22,4 @@ function decryptData(hash, encryptKey = ENCRYPTION_KEY) {
     throw new Error("Failed to decrypt data, either invalid hash or encryption key.");
   }
 }
-module.exports = { encryptData, decryptData }
+module.exports = {encryptData,decryptData}
