@@ -63,12 +63,12 @@ app.use(async (req, res, next) => {
         const links = ['', '', '', '', '']
         const btn = config.dlBtn
         if (gd.link) {
-            if (btn.server1.active) links[btn.server1.z] = `<a href="${gd.link + '&server=cs_old'}" class="direct-download" id="link1">Direct Download</a>`
-            if (btn.server2.active) links[btn.server2.z] = `<a href="${btn.server2.domain + gd.link}" class="direct-download" id="link1">Direct Download 2</a>`
-            if (btn.gdrive.active) links[btn.gdrive.z] = `<a href="${gd.link + '&server=gdrive'}" class="google-download" id="link3" target="_blank">Google Download</a>`
+            if (btn.server1.active) links[btn.server1.z] = `<a href="${gd.link + '&server=cs_old'}" class="button direct-download" id="link1">Direct Download</a>`
+            if (btn.server2.active) links[btn.server2.z] = `<a href="${btn.server2.domain + gd.link}" class="button direct-download" id="link1">Direct Download 2</a>`
+            if (btn.gdrive.active) links[btn.gdrive.z] = `<a href="${gd.link + '&server=gdrive'}" class="button google-download" id="link3" target="_blank">Google Download</a>`
         }
-        if (mega.url && btn.mega.active) links[btn.mega.z] = `<a href="${mega.url}" class="mega-download" id="link4" target="_blank">Mega Cloud Download</a>`
-        if (code && bot && btn.tg.active) links[btn.tg.z] = `<a href="https://t.me/${bot}?start=${code}" class="telegram-download" id="link5" target="_blank">Telegram Download</a>`
+        if (mega.url && btn.mega.active) links[btn.mega.z] = `<a href="${mega.url}" class="button mega-download" id="link4" target="_blank">Mega Cloud Download</a>`
+        if (code && bot && btn.tg.active) links[btn.tg.z] = `<a href="https://t.me/${bot}?start=${code}" class="button telegram-download" id="link5" target="_blank">Telegram Download</a>`
         res.render('download', { file: gd, mega, links, info: config.dlInfo, timer: config.timer })
 
     } catch {
