@@ -63,12 +63,12 @@ app.use(async (req, res, next) => {
         const links = ['','','','','']
         const btn = config.dlBtn
         if(gd.link) {
-           if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="button direct-download" id="link1">Direct Download</a>`
-           if(btn.server2.active) links[btn.server2.z]=`<a href="${btn.server2.domain + gd.link}" class="button direct-download" id="link1">Direct Download 2</a>`
-           if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="button google-download" id="link3" target="_blank">Google Download</a>`
+           if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="button direct-download" id="link1"> <img src="https://img.icons8.com/ios-filled/50/000000/download.png" alt="Direct Download Logo"> Direct Download</a>`
+           if(btn.server2.active) links[btn.server2.z]=`<a href="${btn.server2.domain + gd.link}" class="button direct-download" id="link1"> <img src="https://img.icons8.com/ios-filled/50/000000/download.png" alt="Direct Download Logo"> Direct Download 2</a>`
+           if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="button google-download" id="link3" target="_blank"> <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Download Logo">Google Download</a>`
         }
-        if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="button mega-download" id="link4" target="_blank">Mega Download</a>`
-        if(code && bot && btn.tg.active) links[btn.tg.z]=`<a href="https://t.me/${bot}?start=${code}" class="button telegram-download" id="link5" target="_blank">Telegram Download</a>`
+        if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="button mega-download" id="link4" target="_blank"> <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-MxulGF4CRlUauCY2_5_yu5W8sdwwvBOr89_RtAA2eNU4y_VQnSMj0RkXgjwMIBzTn4yVuFuDsPe9jn9IGJYPO500V2vZkDsElT6vXgzjAHgiP4v1XHNr3Og_Z9Mvar0e7rUOYNdviByhhHLkis7PSZOG1iU_GZlCjZ-Ie833l7Gj1giC3ou2f7isrew/s320/mega.png" alt="Mega Cloud Download Logo"> Mega Download</a>`
+        if(code && bot && btn.tg.active) links[btn.tg.z]=`<a href="https://t.me/${bot}?start=${code}" class="button telegram-download" id="link5" target="_blank"> <img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram Download Logo"> Telegram Download</a>`
         res.render('download', { file: gd,mega,links, info: config.dlInfo, timer : config.timer })
 
     } catch {
