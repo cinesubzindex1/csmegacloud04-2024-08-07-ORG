@@ -14,6 +14,7 @@ const { CheckPaths } = require("./lib/checkIndex");
 const { driveDirectDlIncognito } = require("./lib/driveDirectDl");
 const stage = require("./stage");
 const { checkMegaPath } = require("./lib/checkmega");
+const log = require("./utils/log");
 
 const app = express();
 app.enable('trust proxy');
@@ -21,8 +22,8 @@ app.enable('trust proxy');
 app.use(express.json());
 app.use(cors());
 app.use(secure)
-app.use(express.static('assets'));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.set('view engine', 'ejs');
@@ -33,15 +34,21 @@ function mainPath(path) {
 }
 
 app.use(async (req, res, next) => {
-    if(stage == 'dev') return res.render('maintain', {})
+    if (stage == 'dev') return res.render('maintain', {})
+    log(req.path, req.method, req.query)
     if (['/', '/direct.csdl', '/download.csdl', '/info.csdl', '/token.csdl', '/generate.csdl', 'cs.download.csdl', '/generate_web_crypto.csdl', '/admin', '/gdrive.config', '/telegram'].includes(mainPath(req.path))) return next();
     var paths = req.path.replace('/', '').split('/')
-    var mega={};
-    var gd={};
+    var mega = {hasfile : false};
+    var gd = {};
+    var { use_as_api: api } = req.query
+    const withLink = req.method == 'POST'
     try {
-        mega = await checkMegaPath(paths,req.query.auth) || {}
-        if(mega.size) mega.size = convertBytes(mega.size)
-    }catch {}
+        mega = await checkMegaPath(paths,withLink, req.query.auth) || {}
+        if(withLink) return res.json({mega:mega.url})
+        if (mega.size) mega.size = convertBytes(mega.size)
+    } catch (e) {
+        log(e)
+    }
     try {
         var data = await CheckPaths(paths)
         var file = data.data.pop()
@@ -52,26 +59,30 @@ app.use(async (req, res, next) => {
             gd.size = convertBytes(gd.size)
             gd.link = await generateLink(id, gd.name);
         }
-    } catch{}
+    } catch (e) {
+        log(e)
+    }
 
     try {
-        if(!mega.url && !gd.link) {
-            if(gd.error) return res.render('error', gd)
+        if (!mega.url && !gd.link) {
+            if (gd.error) return res.render('error', gd)
             return res.redirect('/');
         }
         var { code, bot } = req.query;
-        const links = ['','','','','']
+        const links = ['', '', '', '', '']
         const btn = config.dlBtn
-        if(gd.link) {
-           if(btn.server1.active) links[btn.server1.z]=`<a href="${gd.link + '&server=cs_old'}" class="button direct-download" id="link1"> <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJ8BrfDh5b_iICYJA9XiOltU5bxex8JTuaFFmZOUTThCt-WqFYEPo_pxwwFqeuOiJmogxfIa8rLjCnVvAZfRAqg4TrLA-YzN5pdhGc_TdLRc-qUm_4ZVFjO9zT4eUWSwcj-P3FzWArkGMVUqydlaUaPu1DczmfrIBqfS36hHfTSpLX3zWZon9SanV3uu4/s320/download.png" alt="Direct Download Logo"> Direct Download</a>`
-           if(btn.server2.active) links[btn.server2.z]=`<a href="${btn.server2.domain + gd.link}" class="button direct-download" id="link1"> <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJ8BrfDh5b_iICYJA9XiOltU5bxex8JTuaFFmZOUTThCt-WqFYEPo_pxwwFqeuOiJmogxfIa8rLjCnVvAZfRAqg4TrLA-YzN5pdhGc_TdLRc-qUm_4ZVFjO9zT4eUWSwcj-P3FzWArkGMVUqydlaUaPu1DczmfrIBqfS36hHfTSpLX3zWZon9SanV3uu4/s320/download.png"> Direct Download 2</a>`
-           if(btn.gdrive.active) links[btn.gdrive.z]=`<a href="${gd.link + '&server=gdrive'}" class="button google-download" id="link3" target="_blank"> <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Download Logo">Google Download</a>`
+        if (gd.link) {
+            if (btn.server1.active) links[btn.server1.z] = `<a href="${gd.link + '&server=cs_old'}" class="button direct-download" id="link1"> <img src="/images/download.png" alt="Direct Download Logo"> Direct Download</a>`
+            if (btn.server2.active) links[btn.server2.z] = `<a href="${btn.server2.domain + gd.link}" class="button direct-download" id="link1"> <img src="/images/download.png"> Direct Download 2</a>`
+            if (btn.gdrive.active) links[btn.gdrive.z] = `<a href="${gd.link + '&server=gdrive'}" class="button google-download" id="link3" target="_blank"> <img src="/images/google-logo.png" alt="Google Download Logo">Google Download</a>`
         }
-        if(mega.url && btn.mega.active) links[btn.mega.z]=`<a href="${mega.url}" class="button mega-download" id="link4" target="_blank"> <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-MxulGF4CRlUauCY2_5_yu5W8sdwwvBOr89_RtAA2eNU4y_VQnSMj0RkXgjwMIBzTn4yVuFuDsPe9jn9IGJYPO500V2vZkDsElT6vXgzjAHgiP4v1XHNr3Og_Z9Mvar0e7rUOYNdviByhhHLkis7PSZOG1iU_GZlCjZ-Ie833l7Gj1giC3ou2f7isrew/s320/mega.png" alt="Mega Cloud Download Logo"> Mega Download</a>`
-        if(code && bot && btn.tg.active) links[btn.tg.z]=`<a href="https://t.me/${bot}?start=${code}" class="button telegram-download" id="link5" target="_blank"> <img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram Download Logo"> Telegram Download</a>`
-        res.render('download', { file: gd,mega,links, info: config.dlInfo, timer : config.timer })
+        if (mega.url && btn.mega.active) links[btn.mega.z] = `<a href="${mega.url}" class="button mega-download" id="link4" target="_blank"> <img src="/images/mega.png" alt="Mega Cloud Download Logo"> Mega Download</a>`
+        if (code && bot && btn.tg.active) links[btn.tg.z] = `<a href="https://t.me/${bot}?start=${code}" class="button telegram-download" id="link5" target="_blank"> <img src="/images/telegram-app.png" alt="Telegram Download Logo"> Telegram Download</a>`
+        if (api) return res.json({ gd, mega })
+        res.render('download', { file: gd, mega, links, info: config.dlInfo, timer: config.timer })
 
-    } catch {
+    } catch (e) {
+        log(e)
         return res.render('error', { error: "Invalid request." })
     }
 });
@@ -80,11 +91,11 @@ app.get('/', (req, res) => {
     res.render('error', { error: 'Permission denied' })
 });
 
-app.get('/telegram',(req, res) => {
-        var { code, bot } = req.query;
-        if(!code || !bot) return res.redirect('/')
-        const tg = `https://t.me/${bot}?start=${code}`
-        res.render('tg', { tg, info: config.dlInfo, timer : config.timer })
+app.get('/telegram', (req, res) => {
+    var { code, bot } = req.query;
+    if (!code || !bot) return res.redirect('/')
+    const tg = `https://t.me/${bot}?start=${code}`
+    res.render('tg', { tg, info: config.dlInfo, timer: config.timer })
 });
 
 app.get('/admin', (req, res) => {
@@ -119,7 +130,8 @@ app.get('/direct.csdl/:name', async (req, res) => {
             }
             response.body.pipe(res);
         }
-    } catch {
+    } catch (e) {
+        log(e)
         return res.render('error', { error: "Invalid request." })
     }
 });
@@ -142,7 +154,7 @@ app.get('/download.csdl/:name', async (req, res) => {
         if (!integrity_result) {
             return res.render('error', { error: "Integrity check failed." })
         }
-        if (server == 'gdrive'){
+        if (server == 'gdrive') {
             const dlLink = await driveDirectDlIncognito(file)
             return res.redirect(dlLink || `https://drive.usercontent.google.com/download?id=${file}&export=download`)
         }
@@ -152,8 +164,8 @@ app.get('/download.csdl/:name', async (req, res) => {
                     const server = config.downloadServers[Math.floor(Math.random() * config.downloadServers.length)]
                     var { data } = await axios.get(`https://${server}/generate.aspx?id=` + file)
                     return res.redirect(data.link)
-                } catch { 
-                    if(!fail) return await useServer(true)
+                } catch {
+                    if (!fail) return await useServer(true)
                 }
             }
             return await useServer()
@@ -169,7 +181,7 @@ app.get('/download.csdl/:name', async (req, res) => {
             response.body.pipe(res);
         }
     } catch (e) {
-        console.log(e)
+        log(e)
         return res.render('error', { error: "Invalid request." })
     }
 });
@@ -237,7 +249,7 @@ app.get('/cs.download.csdl', async (req, res) => {
         } else {
             response.size = convertBytes(response.size)
             const link = await generateLink(id, response.name);
-            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer : config.timer })
+            res.render('download', { file: response, url: link, gUrl: link + '&server=gdrive', sUrl: link + '&server=cs_old', info: config.dlInfo, timer: config.timer })
         }
     } catch {
         return res.render('error', { error: "Invalid request." })

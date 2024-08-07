@@ -1,98 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= file.name || mega.name %></title>
+    <title>
+        <%= file.name || mega.name %>
+    </title>
     <style>
         body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #ffffff;
-}
-.container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-#box {
-    display: none;
-}
-.download-section {
-    text-align: center;
-    margin-bottom: 30px;
-}
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
 
-.download-section h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
-.file-info {
-    font-size: 18px;
-    margin: 5px 0;
-}
+        #box {
+            display: none;
+        }
 
+        .download-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
+        .download-section h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
 
-
-
-.additional-info {
-    margin-top: 20px;
-}
-
-.additional-info h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.additional-info p {
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.additional-info a {
-    color: #FF0000;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.additional-info a:hover {
-    color: #FFFFFF;
-}
-
-@media (max-width: 600px) {
-    .container {
-        margin: 20px;
-        padding: 15px;
-    }
-
-    .download-section h1 {
-        font-size: 20px;
-    }
-
-    .file-info {
-        font-size: 16px;
-    }
+        .file-info {
+            font-size: 18px;
+            margin: 5px 0;
+        }
 
 
 
-    .additional-info h2 {
-        font-size: 18px;
-    }
 
-    .additional-info p {
-        font-size: 14px;
-    }
-}
 
+        .additional-info {
+            margin-top: 20px;
+        }
+
+        .additional-info h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .additional-info p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .additional-info a {
+            color: #FF0000;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .additional-info a:hover {
+            color: #FFFFFF;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            .download-section h1 {
+                font-size: 20px;
+            }
+
+            .file-info {
+                font-size: 16px;
+            }
+
+
+
+            .additional-info h2 {
+                font-size: 18px;
+            }
+
+            .additional-info p {
+                font-size: 14px;
+            }
+        }
     </style>
 
-<style>
+    <style>
         body {
             background-color: #1a1a1a;
             display: flex;
@@ -125,40 +130,52 @@
         }
 
         .direct-download {
-            background-color: #800000; /* Maroon */
+            background-color: #800000;
+            /* Maroon */
             box-shadow: 0 0 5px #800000, 0 0 10px #800000, 0 0 15px #800000, 0 0 20px #800000;
-            border-color: #ffcccb; /* Light Pink Border */
+            border-color: #ffcccb;
+            /* Light Pink Border */
         }
 
         .google-download {
-            background-color: #800080; /* Purple */
+            background-color: #800080;
+            /* Purple */
             box-shadow: 0 0 5px #800080, 0 0 10px #800080, 0 0 15px #800080, 0 0 20px #800080;
-            border-color: #e5b1e5; /* Light Purple Border */
+            border-color: #e5b1e5;
+            /* Light Purple Border */
         }
 
         .mega-download {
-            background-color: #D9272E; /* Mega Red */
+            background-color: #D9272E;
+            /* Mega Red */
             box-shadow: 0 0 5px #D9272E, 0 0 10px #D9272E, 0 0 15px #D9272E, 0 0 20px #D9272E;
-            border-color: #ffb3b3; /* Light Red Border */
+            border-color: #ffb3b3;
+            /* Light Red Border */
         }
 
         .telegram-download {
-            background-color: #0088cc; /* Telegram Blue */
+            background-color: #0088cc;
+            /* Telegram Blue */
             box-shadow: 0 0 5px #0088cc, 0 0 10px #0088cc, 0 0 15px #0088cc, 0 0 20px #0088cc;
-            border-color: #b3e0f5; /* Light Blue Border */
+            border-color: #b3e0f5;
+            /* Light Blue Border */
         }
 
         .button:hover {
             transform: scale(1.1);
             transition: transform 0.2s;
-            border-color: #0099ff; /* More Vibrant Blue on hover */
-            box-shadow: 0 0 5px #0099ff, 0 0 10px #0099ff, 0 0 15px #0099ff, 0 0 20px #0099ff; /* Vibrant Blue Glow on hover */
+            border-color: #0099ff;
+            /* More Vibrant Blue on hover */
+            box-shadow: 0 0 5px #0099ff, 0 0 10px #0099ff, 0 0 15px #0099ff, 0 0 20px #0099ff;
+            /* Vibrant Blue Glow on hover */
         }
     </style>
 
 
-<meta http-equiv="refresh" content="100; URL=https://outrightsham.com/qj3u0dhi2?key=aa36ab12708b3d7b7b9ef30a1334084d" />
+    <meta http-equiv="refresh"
+        content="100; URL=https://outrightsham.com/qj3u0dhi2?key=aa36ab12708b3d7b7b9ef30a1334084d" />
 </head>
+
 <body>
     <div class="container">
         <div id="box">
@@ -166,57 +183,89 @@
 
                 <h4>ඩිරෙක්ට් ඩවුන්ලෝඩ් කිරීමට ඉහත Direct Download හෝ Google Server එක ක්ලික් කර ලබා ගන්න.</h4>
 
-                <p class="file-info">File Name: <span><%= file.name || mega.name %></span></p>
-                <p class="file-info">File Size: <span><%= file.size || mega.size %></span></p> 
+                <p class="file-info">File Name: <span>
+                        <%= file.name || mega.name %>
+                    </span></p>
+                <p class="file-info">File Size: <span>
+                        <%= file.size || mega.size %>
+                    </span></p>
                 <div id="dl-links"></div>
             </div>
 
             <div class="additional-info">
                 <h2>🔰 Help 🔰</h2>
-                <p><%= info.main[0] %></p>
-                <p><%= info.main[1] %></p>
-                <p><%= info.main[2] %></p>
+                <p>
+                    <%= info.main[0] %>
+                </p>
+                <p>
+                    <%= info.main[1] %>
+                </p>
+                <p>
+                    <%= info.main[2] %>
+                </p>
                 <p>If Any Issue Please Contact <a href="<%= info.help %>">Admin</a>
             </div>
         </div>
         <div id="count">
-            <h4>Cinesubz Download Page</h4><h1 id="second"></h1>
+            <h4>Cinesubz Download Page</h4>
+            <h1 id="second"></h1>
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", async function () {
             let countdown = Number('<%= timer.time %>');
             let active = '<%= timer.active %>'
+            let useMega = '<%= mega.hasfile %>' == 'true'
+            let mega = ''
 
             const timerElement = document.querySelector("#second");
             timerElement.textContent = `Please wait ${countdown} seconds...`;
 
             const downloadSection = document.querySelector(".download-section");
 
+            console.log(document.querySelector(".download-section"))
+
+            function setMegaUrl() {
+                const MegaLink = document.querySelector(".mega-download");
+                if (mega && MegaLink) {
+                    MegaLink.href = mega
+                }
+            }
             function applyUrl() {
                 document.querySelector("#box").style.display = "block";
                 document.querySelector("#count").style.display = "none";
-            const dlBtn = document.querySelector("#dl-links");
+                const dlBtn = document.querySelector("#dl-links");
                 dlBtn.innerHTML += '<%- links[0] %>';
                 dlBtn.innerHTML += '<%- links[1] %>';
                 dlBtn.innerHTML += '<%- links[2] %>';
                 dlBtn.innerHTML += '<%- links[3] %>';
                 dlBtn.innerHTML += '<%- links[4] %>';
+                setMegaUrl();
             }
-
-            if(active == 'true') {
-            const intervalId = setInterval(function() {
-                countdown--;
-                timerElement.textContent = `Please wait ${countdown} seconds...`;
-                if (countdown <= 0) {
-                    clearInterval(intervalId);
-                    applyUrl();
-                }
-            }, 1000);
-        } else {
-            applyUrl();
-        }
+            if (active == 'true') {
+                const intervalId = setInterval(function () {
+                    countdown--;
+                    timerElement.textContent = `Please wait ${countdown} seconds...`;
+                    if (countdown <= 0) {
+                        clearInterval(intervalId);
+                        applyUrl();
+                    }
+                }, 1000);
+            } else {
+                applyUrl();
+            }
+            if (useMega) {
+                const response = await fetch(window.location.href, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+                mega = (await response.json()).mega;
+            }
+            setMegaUrl();
         });
     </script>
 </body>
+
 </html>

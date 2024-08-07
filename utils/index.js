@@ -2,6 +2,7 @@ const axios = require('axios');
 const { JSONWebToken } = require('./jwt');
 const config = require('./config');
 const serviceAccounts = require('./serviceAccounts');
+const log = require('./log');
 var tempAuth = {}
 
 function getServiceAccount(){
@@ -14,7 +15,7 @@ function getServiceAccount(){
 
 async function getAccessToken() {
     if (tempAuth.accessToken && tempAuth.expires > Date.now()) {
-        console.log("Using cached token");
+        log("Using cached gdrive token");
         return [tempAuth.accessToken, tempAuth.expires];
     }
     const obj = await fetchAccessToken();
